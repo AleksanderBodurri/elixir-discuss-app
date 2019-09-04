@@ -4,12 +4,12 @@
   <%= for topic <- @topics do %>
     <li class="collection-item">
       <%= topic.title %>
-      <div class="right">
-        <%= link "Edit", to: topic_path(@conn, :edit, topic.id) %>
-      </div>
-      <div class="right">
-        <%= link "Delete", to: topic_path(@conn, :delete, topic.id), method: :delete %>
-      </div>
+      <%= if @conn.assigns.user.id == topic.user_id do %>
+        <div class="right">
+            <%= link "Edit", to: topic_path(@conn, :edit, topic.id) %> /
+            <%= link "Delete", to: topic_path(@conn, :delete, topic.id), method: :delete %>
+        </div>
+      <% end %>
     </li>
   <% end %>
 </ul>
