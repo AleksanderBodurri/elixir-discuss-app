@@ -12,9 +12,13 @@ defmodule Discuss.TopicController do
   end
 
   def index(conn, _params) do
-    IO.inspect conn.assigns
     topics = Repo.all(Topic)
     render conn, "index.html", topics: topics
+  end
+
+  def show(conn, %{"id" => topic_id}) do
+    topic = Repo.get!(Topic, topic_id)
+    render conn, "show.html", topic: topic
   end
 
   def create(conn, %{"topic" => topic}) do
@@ -54,7 +58,7 @@ defmodule Discuss.TopicController do
       conn
     else
       conn
-      |> put_flash(:error, "You do not have the necessary permissions to edit that")
+      |> put_flash(:error, "You do not have the necessary permissions to edit that topic")
       |> redirect(to: topic_path(conn, :index))
       |> halt()
     end
